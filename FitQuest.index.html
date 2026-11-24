@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FitQuest</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#000;--bg2:#0d0d0d;--card:#141414;--bd:#2c2c2c;--tx:#fff;--mut:#9a9a9a;--pri:#ff5a1f;--pk:#ff9a1f;--ok:#22d78a;--warn:#ffb020;--bad:#ff5470;--inp:#1e1e1e}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f3f3;--bg2:#fff;--card:#fff;--bd:#dcdcdc;--tx:#0a0a0a;--mut:#6b6b6b;--inp:#f0f0f0}}
+:root[data-theme="light"]{--bg:#f3f3f3;--bg2:#fff;--card:#fff;--bd:#dcdcdc;--tx:#0a0a0a;--mut:#6b6b6b;--inp:#f0f0f0}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{max-width:480px;margin:auto;padding:14px 14px 96px}
+.hero{border-radius:26px;padding:16px;background:linear-gradient(135deg,var(--pri),var(--pk));color:var(--on,#fff);display:flex;align-items:center;gap:12px;box-shadow:0 12px 30px color-mix(in srgb,var(--pri) 45%,transparent)}
+.hero h1{margin:0;font-size:17px;font-weight:700}.hero small{opacity:.92;font-size:12px}
+.coin{margin-left:auto;background:rgba(0,0,0,.25);padding:8px 13px;border-radius:99px;font-weight:700;white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:16px;margin-top:14px;backdrop-filter:blur(10px)}
+h2{font-size:16px;margin:0 0 10px;font-weight:700}
+.mut{color:var(--mut);font-size:13px}
+.big{font-size:30px;font-weight:800;margin:6px 0 2px}
+input,select{width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid var(--bd);background:var(--inp);color:var(--tx);font:inherit;font-size:15px;margin-bottom:8px}
+button{font-family:inherit}
+.btn{width:100%;border:0;border-radius:14px;padding:14px;font-weight:700;font-size:15px;color:var(--on,#fff);background:linear-gradient(135deg,var(--pri),var(--pk));cursor:pointer;box-shadow:0 6px 16px color-mix(in srgb,var(--pri) 40%,transparent)}
+.btn.g{background:var(--inp);color:var(--tx);box-shadow:none;border:1.5px solid var(--bd)}
+.btn:disabled{opacity:.45}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row .n{flex:none}
+.seg{display:flex;gap:8px;margin-bottom:10px}
+.seg div{flex:1;padding:10px;border-radius:14px;border:1.5px solid var(--bd);text-align:center;font-size:13px;cursor:pointer}
+.seg div.on{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 25%,transparent);font-weight:700}
+.task{display:flex;align-items:center;gap:12px;padding:13px;border-radius:16px;border:1.5px solid var(--bd);margin-bottom:9px;cursor:pointer;font-size:15px;font-weight:600}
+.task.on{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent)}
+.box{width:28px;height:28px;border-radius:9px;border:2px solid var(--mut);display:grid;place-items:center;color:#fff;font-weight:900;flex:none}
+.on .box{background:var(--ok);border-color:var(--ok)}
+.x{margin-left:auto;background:none;border:0;color:var(--mut);font-size:18px;cursor:pointer}
+.ringw{display:flex;align-items:center;gap:16px}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.p-ok{background:color-mix(in srgb,var(--ok) 25%,transparent);color:var(--ok)}.p-w{background:color-mix(in srgb,var(--warn) 25%,transparent);color:var(--warn)}.p-m{background:var(--inp);color:var(--mut)}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;flex:none}
+.lb{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--bd)}.lb:last-child{border:0}
+.lb .sc{margin-left:auto;text-align:right;font-weight:800;font-size:18px}
+.rk{width:26px;text-align:center;font-size:20px}
+.feed{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feed figure{margin:0;position:relative;border-radius:16px;overflow:hidden;background:var(--inp);aspect-ratio:3/4}
+.feed img{width:100%;height:100%;object-fit:cover;display:block}
+.feed figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-size:12px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.d{aspect-ratio:1;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:600;background:var(--inp);color:var(--mut)}
+.d.y{background:var(--ok);color:#06251a}.d.w{background:var(--warn);color:#2b1c00}.d.n{background:var(--bad);color:#fff}.d.t{outline:3px solid var(--pri)}
+.stats{display:flex;gap:8px}.stats div{flex:1;text-align:center;background:var(--inp);border-radius:16px;padding:10px;font-size:12px}.stats b{display:block;font-size:24px}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{text-align:center;border:1.5px solid var(--bd);border-radius:18px;padding:12px}.item.eq{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 15%,transparent)}.item .e{font-size:44px}
+.item .btn{padding:9px;margin-top:6px;font-size:13px}
+.nav{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:auto;display:flex;gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--bg2);border-top:1px solid var(--bd)}
+.nav button{flex:1;background:none;border:0;color:var(--mut);padding:7px 0;font-size:11px;font-weight:600;border-radius:14px;cursor:pointer}
+.nav b{display:block;font-size:21px}.nav .act{color:var(--tx);background:color-mix(in srgb,var(--pri) 30%,transparent)}
+.code{font-size:26px;font-weight:800;letter-spacing:6px;text-align:center;padding:10px;border-radius:14px;border:2px dashed var(--pri);margin:8px 0}
+.shield{display:inline-block}.fl .shield{animation:fl 1s infinite alternate}
+@keyframes fl{from{filter:drop-shadow(0 0 4px #ff8a00)}to{filter:drop-shadow(0 0 16px #ff3d00)}}
+.toast{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:700;font-size:13px;z-index:9;display:none;max-width:90%}
+</style></head><body>
+<div class="toast" id="toast"></div><div id="app"></div>
+<script>
+const TIERS=[["White","#f4f4f8"],["Yellow","#ffd93d"],["Orange","#ff8a1f"],["Blue","#2f80ff"],["Black","#2a2a35"],["Golden","#f5b301"]];
+const SHOP=[{id:"p1",e:"🐶",n:"Puppy",c:40},{id:"p2",e:"🐱",n:"Kitten",c:40},{id:"p3",e:"🦊",n:"Fox",c:80},{id:"p4",e:"🐉",n:"Dragon",c:200},{id:"c1",e:"🥷",n:"Ninja",c:100},{id:"c2",e:"🦸",n:"Hero",c:150},{id:"c3",e:"🧙",n:"Wizard",c:250},{id:"c4",e:"🤖",n:"Robot",c:120}];
+const COLS=["#ff5a1f","#ff9a1f","#22c55e","#38bdf8","#f43f5e","#a3e635"];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=i=>document.getElementById(i),app=$("app");
+const now=new Date(),pad=n=>String(n).padStart(2,"0"),TODAY=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`,MPRE=TODAY.slice(0,8),DIM=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+let devOK=false,prof=null,myRef=null,refCount=0,gymSel="bb",db,assets,uid,me={name:""},code=null,room=null,members={},logs=[],tab="home",pcode="",P={room:null,mem:{},logs:[]},gunsubs=[],rnTmp="",mode="shared",unsubs=[],busy=false;
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display="none",2200)}
+function loadLocal(){try{return JSON.parse(localStorage.getItem("fq2")||"{}")}catch(e){return {}}}
+function saveLocal(){try{localStorage.setItem("fq2",JSON.stringify({name:me.name}))}catch(e){}}
+const av=(n,s=40)=>`<div class="av" style="width:${s}px;height:${s}px;background:${COLS[(n||"?").charCodeAt(0)%COLS.length]}">${esc((n||"?")[0].toUpperCase())}</div>`;
+function shield(l,s=44){const [n,c]=TIERS[l%6],f=l>=6,dk=l%6==4||l%6==3;
+ return `<span class="${f?'fl':''}"><span class="shield"><svg width="${s}" height="${s*1.15}" viewBox="0 0 40 46"><defs><linearGradient id="g${l}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><path d="M20 2 36 8v16c0 11-8 18-16 20C12 42 4 35 4 24V8z" fill="${c}" stroke="${f?'#ff5a00':'rgba(0,0,0,.25)'}" stroke-width="2.5"/><path d="M20 2 36 8v16c0 11-8 18-16 20C12 42 4 35 4 24V8z" fill="url(#g${l})"/><text x="20" y="29" text-anchor="middle" font-size="15" fill="${dk?'#fff':'#333'}" font-weight="900">${f?'🔥':'★'}</text></svg></span></span>`}
+const bname=l=>TIERS[l%6][0]+(l>=6?" + Flames":"")+" Badge";
+const logId=(d,u)=>`${d}_${u}`.replace(/[^A-Za-z0-9_\-.:@+~]/g,"_");
+const myLog=(d=TODAY,u=uid)=>logs.find(l=>l.uid==u&&l.date==d)||{done:[],full:false,photo:null};
+const goals=(u=uid)=>room.mode=="shared"?(room.goals||[]):((members[u]&&members[u].goals)||[]);
+const verified=u=>VD().size;
+const verifiedM=u=>logs.filter(l=>l.uid==u&&l.full&&l.photo&&l.date.startsWith(MPRE)).length;
+const spent=u=>((P.mem&&P.mem.owned)||[]).reduce((a,id)=>a+(SHOP.find(s=>s.id==id)||{c:0}).c,0);
+const coins=u=>(u==uid&&DEV("coins"))?999999:verified(u)*10-spent(u)+(u==uid?bonus()-gymCost():0);
+const level=u=>Math.floor(verified(u)/5);
+
+/* ---------- start ---------- */
+const syncP=()=>{if(code==pcode){room=P.room;members={[uid]:P.mem};logs=P.logs}};
+const DG=()=>[{id:"g1",t:"10,000 steps"},{id:"g2",t:"50 push-ups"}];
+async function boot(){
+ try{db=await claude.use("db");assets=await claude.use("assets");const us=await claude.use("user");uid=us?await us.id():null;devOK=us?!!(await us.isOwner()):false}catch(e){}
+ const L=loadLocal();me.name=L.name||"";
+ if(!db||!uid){app.innerHTML=`<div class="card"><h2>💪 FitQuest</h2><p class="mut">FitQuest needs you to be signed in to Claude when opening this link. Please open it in the Claude app or on claude.ai while signed in.</p></div>`;return}
+ try{const p=await db.doc("profiles/"+uid).get();prof=p.exists?p.data():null}catch(e){}
+ if(prof){me.name=prof.name||me.name||"Player";await startApp(L.code)}else welcome()}
+function welcome(){app.innerHTML=`<div class="hero"><div style="font-size:40px">💪</div><div><h1>Welcome to FitQuest</h1><small>Do it. Prove it. Win it.</small></div></div>
+ <div class="card"><h2>Your name</h2><input id="nm" maxlength="16" placeholder="e.g. Aarav" value="${esc(me.name)}"></div>
+ <div class="card"><h2>🎁 Referral code <span class="mut">(optional)</span></h2><input id="rf" maxlength="8" placeholder="FRIEND’S CODE" style="margin:0;text-transform:uppercase;letter-spacing:3px"><div class="mut" style="margin-top:6px">Got a code from a friend? You both get 10 bonus coins.</div></div>
+ <button class="btn" style="margin-top:14px" onclick="begin()">Let’s go 🚀</button>`}
+async function begin(){const n=$("nm").value.trim();if(!n)return toast("Type your name first");me.name=n;saveLocal();await takeRef();await startApp()}
+async function startApp(legacy){
+ pcode=("P-"+uid).replace(/[^A-Za-z0-9_\-.:@+~]/g,"_");
+ try{const r=await db.doc("rooms/"+pcode).get();if(!r.exists)await db.doc("rooms/"+pcode).set({name:"Personal",mode:"own",goals:[],owner:uid,created:TODAY,personal:true});
+  const m=await db.doc(`rooms/${pcode}/members/${uid}`).get();if(!m.exists)await db.doc(`rooms/${pcode}/members/${uid}`).set({name:me.name,goals:DG(),owned:[],pet:"",chr:""})}catch(e){toast("Could not start");return}
+ unsubs.forEach(u=>u());unsubs=[];
+ unsubs.push(db.doc("profiles/"+uid).onSnapshot(s=>{if(s.exists){prof=s.data();syncRooms();bank();draw()}}));
+ unsubs.push(db.doc("referrals/"+uid).onSnapshot(s=>{myRef=s.exists?s.data():null;draw()}));
+ unsubs.push(db.collection("referrals").where("by","==",uid).onSnapshot(s=>{refCount=s.size;draw()}));
+ unsubs.push(db.doc("rooms/"+pcode).onSnapshot(s=>{if(s.exists){P.room=s.data();syncP();draw()}}));
+ unsubs.push(db.doc(`rooms/${pcode}/members/${uid}`).onSnapshot(s=>{if(s.exists){P.mem=s.data();syncP();draw()}}));
+ unsubs.push(db.collection(`rooms/${pcode}/logs`).onSnapshot(s=>{P.logs=s.docs.map(d=>d.data());syncP();bank();draw()}));
+ code=pcode;tab="home";
+ if(legacy&&legacy!=pcode){try{const r=await db.doc("rooms/"+legacy).get();if(r.exists)await addRoom(legacy,r.data().name)}catch(e){}}}
+async function openRoom(c){
+ try{const r=await db.doc("rooms/"+c).get();if(!r.exists){toast("This room no longer exists");const rs=((prof&&prof.rooms)||[]).filter(x=>x.c!=c);try{await db.doc("profiles/"+uid).update({rooms:rs})}catch(e){}return false}
+  const mp=`rooms/${c}/members/${uid}`,m=await db.doc(mp).get();if(!m.exists)await db.doc(mp).set({name:me.name,goals:r.data().mode=="own"?DG():[],owned:[],pet:"",chr:""});
+  gunsubs.forEach(u=>u());gunsubs=[];code=c;room=r.data();members={};logs=[];tab="rooms";
+  gunsubs.push(db.doc("rooms/"+c).onSnapshot(s=>{if(s.exists&&code==c){room=s.data();draw()}}));
+  gunsubs.push(db.collection(`rooms/${c}/members`).onSnapshot(s=>{if(code!=c)return;members={};s.docs.forEach(d=>members[d.id]=d.data());draw()}));
+  gunsubs.push(db.collection(`rooms/${c}/logs`).onSnapshot(s=>{if(code!=c)return;logs=s.docs.map(d=>d.data());draw()}));
+  draw();return true}catch(e){toast("Could not open room");return false}}
+let delArm=false;
+async function deleteRoom(){if(!delArm){delArm=true;draw();setTimeout(()=>{delArm=false;draw()},5000);return}
+ delArm=false;const c=code;if(room.owner!=uid)return;
+ try{const ms=await db.collection(`rooms/${c}/members`).get(),ls=await db.collection(`rooms/${c}/logs`).get();
+  await Promise.all([...ms.docs.map(d=>db.doc(`rooms/${c}/members/${d.id}`).delete()),...ls.docs.map(d=>db.doc(`rooms/${c}/logs/${d.id}`).delete())]);
+  await db.doc("rooms/"+c).delete()}catch(e){toast("Could not delete room");return}
+ await hideRoom();toast("Room deleted")}
+function toPersonal(){gunsubs.forEach(u=>u());gunsubs=[];code=pcode;syncP()}
+function nav(t){if(t!="rooms"&&code!=pcode)toPersonal();tab=t;draw()}
+function backRooms(){toPersonal();tab="rooms";draw()}
+async function addRoom(c,n){const rs=(prof&&prof.rooms)||[];if(rs.some(x=>x.c==c))return;try{await db.doc("profiles/"+uid).update({rooms:[...rs,{c,n}]})}catch(e){}}
+async function hideRoom(){const c=code,rs=((prof&&prof.rooms)||[]).filter(x=>x.c!=c);try{await db.doc("profiles/"+uid).update({rooms:rs})}catch(e){}backRooms()}
+async function leaveRoom(){const c=code;try{await db.doc(`rooms/${c}/members/${uid}`).delete()}catch(e){}await hideRoom();toast("You left the room")}
+function setMode(m){rnTmp=$("rn")?$("rn").value:"";if(document.activeElement)document.activeElement.blur();mode=m;draw()}
+async function createRoom(){const rn=$("rn").value.trim()||"My Room",A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";
+ for(let i=0;i<5;i++)c+=A[Math.floor(Math.random()*A.length)];
+ try{await db.doc("rooms/"+c).set({name:rn,mode,goals:mode=="shared"?DG():[],owner:uid,created:TODAY});rnTmp="";await addRoom(c,rn);await openRoom(c)}catch(e){toast("Could not create room")}}
+async function joinRoom(){const c=$("jc").value.trim().toUpperCase();if(c.length<4)return toast("Enter the room code");
+ if(((prof&&prof.rooms)||[]).some(x=>x.c==c))return toast("You’re already in this room 😉");
+ try{const r=await db.doc("rooms/"+c).get();if(!r.exists)return toast("No room with that code");await addRoom(c,r.data().name);await openRoom(c)}catch(e){toast("Could not join")}}
+
+/* ---------- actions ---------- */
+async function setLog(p){const cur=myLog(),n={uid,date:TODAY,done:cur.done||[],full:!!cur.full,photo:cur.photo||null,...p};
+ const gs=goals();n.full=gs.length>0&&gs.every(g=>n.done.includes(g.id));if(DEV("photo")&&n.full&&!n.photo)n.photo=devPic();
+ await db.doc(`rooms/${code}/logs/${logId(TODAY,uid)}`).set(n)}
+async function toggle(id){const d=myLog().done||[];try{await setLog({done:d.includes(id)?d.filter(x=>x!=id):[...d,id]})}catch(e){toast("Could not save")}}
+async function addGoal(){const i=$("ng"),v=i.value.trim();if(!v)return;const g=[...goals(),{id:"g"+Date.now(),t:v}];
+ try{if(room.mode=="shared")await db.doc("rooms/"+code).update({goals:g});else await db.doc(`rooms/${code}/members/${uid}`).update({goals:g})}catch(e){toast("Could not add")}}
+async function delGoal(id,e){e.stopPropagation();const g=goals().filter(x=>x.id!=id);
+ try{if(room.mode=="shared")await db.doc("rooms/"+code).update({goals:g});else await db.doc(`rooms/${code}/members/${uid}`).update({goals:g})}catch(x){}}
+async function photo(inp){const f=inp.files[0];if(!f)return;if(!assets)return toast("Photo upload isn’t allowed for you here");
+ busy=true;toast("Uploading proof…");
+ try{const r=await assets.upload(f);await setLog({photo:r.url});toast("Proof saved! Day verified 🔥")}catch(e){toast("Upload failed, try again")}busy=false;draw()}
+async function buy(id){const it=SHOP.find(s=>s.id==id),m=P.mem||{},o=m.owned||[],mp=`rooms/${pcode}/members/${uid}`;
+ try{if(o.includes(id)){const k=id[0]=="p"?"pet":"chr";await db.doc(mp).update({[k]:m[k]==it.e?"":it.e})}
+ else if(coins(uid)>=it.c){await db.doc(mp).update({owned:[...o,id]});toast("Bought "+it.n+"!")}else toast("Not enough coins yet")}catch(e){toast("Try again")}}
+function copyCode(){try{navigator.clipboard.writeText(code);toast("Code copied")}catch(e){toast("Code: "+code)}}
+
+/* ---------- views ---------- */
+function vToday(){const gs=goals(),L=myLog(),d=(L.done||[]).filter(x=>gs.some(g=>g.id==x)).length,n=gs.length,pc=n?d/n:0,C=2*Math.PI*34;
+ const ver=L.full&&L.photo;
+ return `<div class="card"><div class="ringw"><svg width="86" height="86" viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--bd)" stroke-width="9"/><circle cx="40" cy="40" r="34" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pc)}" transform="rotate(-90 40 40)"/><defs><linearGradient id="rg"><stop offset="0" stop-color="#ff5a1f"/><stop offset="1" stop-color="#ff9a1f"/></linearGradient></defs><text x="40" y="46" text-anchor="middle" font-size="18" font-weight="800" fill="currentColor">${Math.round(pc*100)}%</text></svg>
+ <div><h2 style="margin:0">Today’s goals</h2><div class="mut">${d} of ${n} done</div><span class="pill ${ver?'p-ok':L.full?'p-w':'p-m'}">${ver?'✅ Verified':L.full?'📸 Add proof photo':'In progress'}</span></div></div></div>
+ <div class="card">${gs.map(g=>{const on=(L.done||[]).includes(g.id);return `<div class="task ${on?'on':''}" onclick="toggle('${g.id}')"><div class="box">${on?'✓':''}</div>${esc(g.t)}<button class="x" onclick="delGoal('${g.id}',event)">✕</button></div>`}).join("")||'<p class="mut">No goals yet. Add one below.</p>'}
+ <div class="row" style="margin-top:6px"><input id="ng" placeholder="${room.mode=='shared'?'Add a group goal':'Add your own goal'}" style="margin:0" onkeydown="if(event.key=='Enter')addGoal()"><button class="btn n" style="width:auto;padding:13px 18px" onclick="addGoal()">Add</button></div></div>
+ ${L.full?`<div class="card"><h2>📸 Last-pump proof</h2><p class="mut">Take a photo right after your final set. It is your proof that the day was real.</p>${L.photo?`<img src="${esc(L.photo)}" style="width:100%;border-radius:16px;margin-bottom:8px" alt="">`:''}<label class="btn" style="display:block;text-align:center">${L.photo?'Retake photo':'Take proof photo'}<input type="file" accept="image/*" capture="environment" hidden onchange="photo(this)"></label></div>`:`<div class="card"><p class="mut" style="margin:0">🔒 Finish all goals to unlock the proof photo. A day only counts when it has a photo.</p></div>`}
+ <div class="card" style="text-align:center"><div class="mut">Your badge</div>${shield(level(uid),74)}<div style="font-weight:700">${bname(level(uid))}</div><div class="mut">${5-verified(uid)%5} verified day(s) to the next badge</div></div>`}
+function vSquad(){const ids=Object.keys(members).sort((a,b)=>verifiedM(b)-verifiedM(a)),med=["🥇","🥈","🥉"];
+ const pics=ids.map(u=>({u,l:myLog(TODAY,u)})).filter(x=>x.l.photo);
+ return `<div class="card"><h2>🏆 This month</h2>${ids.map((u,i)=>{const m=members[u],l=myLog(TODAY,u),st=l.full&&l.photo?'<span class="pill p-ok">verified today</span>':l.full?'<span class="pill p-w">needs photo</span>':'<span class="pill p-m">not yet</span>';
+ return `<div class="lb"><div class="rk">${med[i]||i+1}</div>${av(m.name)}<div><b>${esc(m.chr||"")} ${esc(m.name)}${u==uid?" (you)":""} ${esc(m.pet||"")}</b><div>${st}</div></div><div class="sc">${verifiedM(u)}<div class="mut" style="font-size:10px;font-weight:600">days</div></div></div>`}).join("")}
+ ${ids.length>1?`<div class="mut" style="margin-top:8px">Last place: ${esc(members[ids[ids.length-1]].name)} 😬</div>`:''}</div>
+ <div class="card"><h2>📸 Today’s proof wall</h2>${pics.length?`<div class="feed">${pics.map(p=>`<figure><img src="${esc(p.l.photo)}" alt=""><figcaption>${esc(members[p.u].name)}</figcaption></figure>`).join("")}</div>`:'<p class="mut">No proof photos yet today. Be the first!</p>'}</div>
+ <div class="card"><h2>⚙️ Room</h2><div class="mut">${room.mode=="shared"?"Everyone follows the same goals.":"Each person sets their own goals."}</div><button class="btn g" style="margin-top:10px" onclick="backRooms()">← Back to my rooms</button><button class="btn g" style="margin-top:8px" onclick="hideRoom()">${room.owner==uid?'Delete for me':'Delete from my list'}</button>${room.owner==uid?'':'<button class="btn g" style="margin-top:8px" onclick="leaveRoom()">Leave room</button>'}${room.owner==uid?`<button class="btn" style="margin-top:8px;background:var(--bad)" onclick="deleteRoom()">${delArm?'⚠️ Tap again to delete for everyone':'🗑️ Delete for everyone'}</button>`:''}</div>`}
+function vMonth(){const v=[...VD()].filter(d=>d.startsWith(MPRE)).length,td=+TODAY.slice(8);let miss=0,cells="";
+ for(let d=1;d<=DIM;d++){const k=MPRE+pad(d),l=myLog(k);let c="";if(VD().has(k))c="y";else if(l.full)c="w";else if(d<td){c="n";miss++}
+  cells+=`<div class="d ${c} ${d==td?'t':''}">${d}</div>`}
+ return `<div class="card"><h2>📅 ${now.toLocaleString("en",{month:"long"})} summary</h2><div class="stats"><div><b style="color:var(--ok)">${v}</b>verified</div><div><b style="color:var(--bad)">${miss}</b>missed</div><div><b>${DIM-td}</b>days left</div></div>
+ <div class="grid" style="margin-top:14px">${cells}</div><div class="mut" style="margin-top:10px">🟢 verified · 🟠 done, no photo · 🔴 missed</div></div>
+ <div class="card"><h2>🎁 Perfect month bonus</h2><div class="mut">${miss==0?"No skips so far! Keep going for the bonus.":"You missed "+miss+" day(s) this month. Next month is a fresh start!"}</div></div>`}
+function vShop(){const m=P.mem||{},o=m.owned||[];
+ return `<div class="card"><h2>🛒 Shop</h2><div class="mut" style="margin-bottom:10px">Each verified day earns 10 coins.</div><div class="shop">${SHOP.map(i=>{const own=o.includes(i.id),eq=m.pet==i.e||m.chr==i.e;return `<div class="item ${eq?'eq':''}"><div class="e">${i.e}</div><b>${i.n}</b><button class="btn ${own?'g':''}" onclick="buy('${i.id}')">${own?(eq?'Equipped ✓':'Equip'):'🪙 '+i.c}</button></div>`}).join("")}</div></div>
+ <div class="card"><h2>🏅 Badge levels</h2><div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">${[0,1,2,3,4,5,6,7,8].map(l=>shield(l,34)).join("")}</div><div class="mut" style="margin-top:8px;text-align:center">White → Yellow → Orange → Blue → Black → Golden, then flames 🔥</div></div>`}
+function draw(){if(!code||!room)return;const a=document.activeElement;if(busy||(a&&a.tagName=="INPUT"&&a.type!="file"))return;
+ const m=P.mem||{},L=level(uid);
+ const tabs=[["home","🏠","Home"],["month","📅","Month"],["rooms","👥","Rooms"],["shop","🛒","Shop"],["gym","🏋️","Gym"],["set","⚙️","Settings"]];
+ app.innerHTML=`<div class="hero">${shield(L,34)}<div><h1>${esc(m.chr||"")} ${esc(me.name)} ${esc(m.pet||"")}</h1><small>${bname(L)}</small></div><div class="coin">🪙 ${coins(uid)}</div></div>
+ <div id="v">${{home:vHome,month:vMonth,rooms:vRooms,shop:vShop,gym:vGym,set:vSet}[tab]()}</div>
+ <div class="nav">${tabs.map(t=>`<button class="${tab==t[0]?'act':''}" onclick="nav('${t[0]}')"><b>${t[1]}</b>${t[2]}</button>`).join("")}</div>`}
+
+/* ---------- verified days from all rooms ---------- */
+let RV={},rsubs={},banking=false;
+const VD=()=>{const s=new Set((prof&&prof.banked)||[]);P.logs.forEach(l=>{if(l.full&&l.photo)s.add(l.date)});Object.values(RV).forEach(a=>a.forEach(d=>s.add(d)));return s};
+function syncRooms(){const rs=((prof&&prof.rooms)||[]).map(r=>r.c);
+ Object.keys(rsubs).forEach(c=>{if(!rs.includes(c)){rsubs[c]();delete rsubs[c];delete RV[c]}});
+ rs.forEach(c=>{if(rsubs[c]||c==pcode)return;rsubs[c]=db.collection(`rooms/${c}/logs`).where("uid","==",uid).onSnapshot(s=>{RV[c]=s.docs.map(d=>d.data()).filter(l=>l.full&&l.photo).map(l=>l.date);bank();draw()},()=>{})})}
+async function bank(){if(banking||!prof)return;const b=new Set(prof.banked||[]),add=[...VD()].filter(d=>!b.has(d));if(!add.length)return;
+ banking=true;try{await db.doc("profiles/"+uid).update({banked:[...b,...add]})}catch(e){}banking=false}
+/* ---------- developer options ---------- */
+const DEV=k=>devOK&&ST.dev&&ST.dev[k];
+const devPic=()=>"data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='300' height='400'><rect width='300' height='400' fill='#ff5a1f'/><text x='150' y='210' font-size='38' text-anchor='middle' fill='#fff' font-family='sans-serif'>DEV TEST</text></svg>");
+function setDev(k){ST.dev=ST.dev||{};ST.dev[k]=!ST.dev[k];saveST();draw()}
+function devInfo(){const t=`uid:${uid}\nroom:${code}\ncoins:${coins(uid)}\nverified:${verified(uid)}\nrefCode:${prof&&prof.refCode}`;try{navigator.clipboard.writeText(t);toast("Debug info copied")}catch(e){toast(t)}}
+async function devReset(){await saveGym({cells:Array(20).fill("")});toast("Gym cleared")}
+function vDev(){if(!devOK)return "";const row=(k,t,d)=>`<div class="task ${DEV(k)?'on':''}" onclick="setDev('${k}')"><div class="box">${DEV(k)?'✓':''}</div><div>${t}<div class="mut" style="font-weight:400">${d}</div></div></div>`;
+ return `<div class="card" style="border-color:var(--pri)"><h2>🛠️ Developer options</h2><div class="mut" style="margin-bottom:10px">Only you (the owner) can see this. Settings stay on your device.</div>
+ ${row("coins","Unlimited coins","Buy anything in the Shop and Gym for free")}${row("photo","Skip proof photo","Completing all goals auto-verifies the day with a DEV TEST image")}
+ <button class="btn g" onclick="devInfo()">Copy debug info</button><button class="btn g" style="margin-top:8px" onclick="devReset()">Clear my gym</button></div>`}
+/* ---------- referral + gym ---------- */
+const GYM=[{id:"bb",e:"🏋️",n:"Barbell",c:30},{id:"bk",e:"🚴",n:"Bike",c:40},{id:"tm",e:"🏃",n:"Treadmill",c:50},{id:"pb",e:"🥊",n:"Punch bag",c:35},{id:"ym",e:"🧘",n:"Yoga mat",c:15},{id:"mr",e:"🪞",n:"Mirror",c:20},{id:"sp",e:"🔊",n:"Speaker",c:25},{id:"jb",e:"🥤",n:"Juice bar",c:45},{id:"tr",e:"🏆",n:"Trophy",c:60},{id:"pl",e:"🪴",n:"Plant",c:10},{id:"sf",e:"🛋️",n:"Lounge",c:30},{id:"tv",e:"📺",n:"TV",c:35}];
+const FLOORS={wood:["Wood","repeating-linear-gradient(90deg,#b88a56 0 28px,#a37746 28px 30px)"],rubber:["Rubber","#2a2a2e"],neon:["Neon","linear-gradient(#150a33,#0a0a1f)"],marble:["Marble","linear-gradient(135deg,#f4f6fa,#d9dee8)"]};
+const bonus=()=>(myRef?10:0)+10*refCount;
+const gymCost=()=>((prof&&prof.gym&&prof.gym.cells)||[]).reduce((a,id)=>a+((GYM.find(g=>g.id==id)||{c:0}).c),0);
+async function ensureProfile(ref){
+ if(prof){if(ref)toast(await applyRef(ref));return}
+ try{const p=await db.doc("profiles/"+uid).get();
+  if(p.exists){prof=p.data()}else{const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";
+   for(let t=0;t<6;t++){c="";for(let i=0;i<6;i++)c+=A[Math.floor(Math.random()*A.length)];const e=await db.doc("refcodes/"+c).get();if(!e.exists)break}
+   prof={name:me.name||"Player",refCode:c,gym:{name:"My Gym",floor:"wood",wall:"#ff5a1f",cells:Array(20).fill("")}};
+   await db.doc("refcodes/"+c).set({uid});await db.doc("profiles/"+uid).set(prof)}}catch(e){}
+ if(ref&&prof)toast(await applyRef(ref))}
+async function takeRef(){const i=$("rf"),v=i?i.value.trim().toUpperCase():"";await ensureProfile(v||null)}
+async function applyRef(c){c=c.trim().toUpperCase();if(!c)return "Type a code first";
+ try{const x=await db.doc("referrals/"+uid).get();if(x.exists)return "You already used a referral code";
+  const r=await db.doc("refcodes/"+c).get();if(!r.exists)return "That code doesn’t exist";if(r.data().uid==uid)return "That’s your own code";
+  await db.doc("referrals/"+uid).set({by:r.data().uid,code:c,date:TODAY});myRef={by:r.data().uid};return "Referral applied! +10 coins 🎉"}catch(e){return "Could not apply code"}}
+async function useRef(){toast(await applyRef($("rc").value))}
+function copyRef(){const c=prof?prof.refCode:"";try{navigator.clipboard.writeText(c);toast("Code copied")}catch(e){toast("Code: "+c)}}
+function vRef(){const c=prof?prof.refCode:"...",msg=`Join me on FitQuest! 💪\nOpen: https://claude.ai/artifact/UPJ7ULNJ3oTBgEHuWgjLLs\nUse my referral code ${c} to get 10 bonus coins 🪙`;
+ return `<div class="card"><h2>🎁 Refer and earn</h2><div class="mut">You and your friend both get 10 coins when they join with your code.</div><div class="code" onclick="copyRef()">${esc(c)}</div>
+ <a class="btn" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">📲 Invite friends on WhatsApp</a>
+ <div class="stats" style="margin-top:12px"><div><b>${refCount}</b>friends joined</div><div><b>🪙 ${bonus()}</b>referral coins</div></div>
+ ${myRef?'<div class="mut" style="margin-top:10px">✅ You joined with a friend’s code (+10 coins).</div>':'<div class="mut" style="margin:12px 0 6px">Have a friend’s code?</div><div class="row"><input id="rc" maxlength="8" placeholder="FRIEND CODE" style="margin:0;text-transform:uppercase;letter-spacing:3px"><button class="btn n" style="width:auto;padding:13px 18px" onclick="useRef()">Apply</button></div>'}</div>`}
+function vTeaser(){const c=(i,t,d)=>`<div class="card" onclick="nav('${i}')" style="cursor:pointer"><b>${t}</b><div class="mut">${d}</div></div>`;
+ return c("rooms","👥 Play with friends","Create a room or join with a code")+c("set","🎁 Invite friends, earn 10 coins each","Tap to get your referral code")+c("gym","🏋️ Build your dream gym","Spend your coins on equipment")}
+function vHome(){const h=now.getHours(),g=h<12?"Good morning":h<17?"Good afternoon":"Good evening";let st=0;
+ for(let i=0;i<60;i++){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i),k=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`,l=myLog(k);if(VD().has(k))st++;else if(i>0)break}
+ return `<div class="card"><div class="mut">${g} 👋</div><div class="big">${esc(me.name)}</div><div class="mut">🔥 ${st}-day streak · ${[...VD()].filter(d=>d.startsWith(MPRE)).length} verified this month</div></div>`+vToday()+vTeaser()}
+function vRooms(){return code==pcode?vRoomList():vRoomDetail()}
+function vRoomList(){const rs=(prof&&prof.rooms)||[];
+ return `<div class="card"><h2>👥 My rooms</h2>${rs.length?rs.map(r=>`<div class="lb"><div class="av" style="background:var(--pri);color:var(--on,#fff)">${esc((r.n||"?")[0].toUpperCase())}</div><div><b>${esc(r.n)}</b><div class="mut">Code ${esc(r.c)}</div></div><button class="btn n" style="width:auto;padding:9px 16px;margin-left:auto" onclick="openRoom('${esc(r.c)}')">Open</button></div>`).join(""):'<p class="mut">No rooms yet. Create one or join with a friend’s code. Your personal goals live on Home, so you don’t need a room to use the app.</p>'}</div>
+ <div class="card"><h2>🚀 Create a room</h2><input id="rn" maxlength="24" placeholder="Room name, e.g. Gym Bros" value="${esc(rnTmp)}"><div class="mut" style="margin-bottom:6px">Goals in this room are…</div>
+ <div class="seg"><div class="${mode=='shared'?'on':''}" onclick="setMode('shared')">👥 Same for everyone</div><div class="${mode=='own'?'on':''}" onclick="setMode('own')">🎯 Each person’s own</div></div><button class="btn" onclick="createRoom()">Create room</button></div>
+ <div class="card"><h2>🔑 Join with a code</h2><input id="jc" maxlength="6" placeholder="ENTER CODE" style="text-transform:uppercase;letter-spacing:4px;text-align:center;font-weight:700"><button class="btn g" onclick="joinRoom()">Join room</button></div>`}
+function vRoomDetail(){return `<div class="card"><button class="btn g" onclick="backRooms()" style="margin-bottom:10px">← All rooms</button><div class="row"><div><div class="mut">Room</div><b>${esc(room.name)}</b></div><div class="n"><div class="mut" style="text-align:right">Invite code</div><b style="letter-spacing:3px;cursor:pointer" onclick="copyCode()">${esc(code)} 📋</b></div></div>
+ <a class="mut" style="display:block;margin-top:8px" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent("Join my FitQuest room “"+room.name+"”! 💪\nOpen: https://claude.ai/artifact/UPJ7ULNJ3oTBgEHuWgjLLs\nThen enter code: "+code)}">📲 Share code on WhatsApp</a></div>`+vToday()+vSquad()}
+function gymData(){const g=(prof&&prof.gym)||{};return {name:g.name||"My Gym",floor:g.floor||"wood",wall:g.wall||"#ff5a1f",cells:Array.from({length:20},(_,i)=>(g.cells||[])[i]||"")}}
+async function saveGym(p){const g={...gymData(),...p};try{await db.doc("profiles/"+uid).update({gym:g})}catch(e){toast("Could not save")}}
+function placeCell(i){const g=gymData(),cur=g.cells[i],cc=(GYM.find(x=>x.id==cur)||{c:0}).c;
+ if(gymSel=="x"){if(!cur)return;g.cells[i]="";return saveGym({cells:g.cells})}
+ const it=GYM.find(x=>x.id==gymSel);if(!it||cur==it.id)return;
+ if(coins(uid)+cc<it.c)return toast("Not enough coins. Verify more days to earn!");
+ g.cells[i]=it.id;saveGym({cells:g.cells})}
+function vGym(){const g=gymData(),n=g.cells.filter(Boolean).length,lv=n>=15?"Elite Club 👑":n>=10?"Pro Gym 🔥":n>=5?"Local Gym 💪":n>=1?"Home Gym 🏠":"Empty Garage 🧱";
+ return `<div class="card" style="padding:0;overflow:hidden"><div id="wall" style="background:${esc(g.wall)};padding:16px;text-align:center;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.5)"><div style="font-size:22px;font-weight:800;letter-spacing:2px;text-transform:uppercase">${esc(g.name)}</div><div style="font-size:12px">${lv} · ${n}/20 items</div></div>
+ <div style="display:grid;grid-template-columns:repeat(5,1fr);padding:6px;background:${(FLOORS[g.floor]||FLOORS.wood)[1]}">${g.cells.map((id,i)=>{const it=GYM.find(x=>x.id==id);return `<div onclick="placeCell(${i})" style="aspect-ratio:1;display:grid;place-items:center;font-size:30px;border:1px dashed rgba(128,128,128,.35);cursor:pointer">${it?it.e:'<span style="opacity:.3;font-size:18px;color:#888">+</span>'}</div>`}).join("")}</div></div>
+ <div class="card"><h2>🧰 Equipment <span class="mut">· 🪙 ${coins(uid)} available</span></h2><div class="mut" style="margin-bottom:8px">Pick an item, then tap a square in your gym to place it.</div>
+ <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:6px">${GYM.concat([{id:"x",e:"🧽",n:"Remove",c:0}]).map(i=>`<div onclick="gymSel='${i.id}';draw()" style="flex:none;text-align:center;padding:8px 10px;border-radius:14px;min-width:68px;border:1.5px solid ${gymSel==i.id?'var(--pri)':'var(--bd)'};background:${gymSel==i.id?'color-mix(in srgb,var(--pri) 22%,transparent)':'transparent'};cursor:pointer"><div style="font-size:26px">${i.e}</div><div style="font-size:11px;font-weight:600">${i.n}</div><div class="mut" style="font-size:11px">${i.id=="x"?"refund":"🪙 "+i.c}</div></div>`).join("")}</div></div>
+ <div class="card"><h2>🎨 Style your gym</h2><input maxlength="20" value="${esc(g.name)}" placeholder="Gym name" onchange="saveGym({name:this.value.trim().slice(0,20)||'My Gym'})">
+ <div class="mut" style="margin-bottom:6px">Floor</div><div class="seg">${Object.keys(FLOORS).map(k=>`<div class="${g.floor==k?'on':''}" onclick="saveGym({floor:'${k}'})">${FLOORS[k][0]}</div>`).join("")}</div>
+ <div class="mut" style="margin-bottom:6px">Wall colour</div><input type="color" value="${esc(g.wall)}" style="height:56px;padding:4px;cursor:pointer;margin:0" oninput="document.getElementById('wall').style.background=this.value" onchange="saveGym({wall:this.value})"></div>`}
+/* ---------- settings ---------- */
+let ST={theme:"auto",accent:"#ff5a1f"};
+try{Object.assign(ST,JSON.parse(localStorage.getItem("fq2s")||"{}"))}catch(e){}
+const saveST=()=>{try{localStorage.setItem("fq2s",JSON.stringify(ST))}catch(e){}};
+function toHsl(hex){const n=parseInt(hex.slice(1),16),r=(n>>16&255)/255,g=(n>>8&255)/255,b=(n&255)/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,d=mx-mn;let h=0,s=0;
+ if(d){s=d/(1-Math.abs(2*l-1));h=mx==r?((g-b)/d)%6:mx==g?(b-r)/d+2:(r-g)/d+4;h*=60;if(h<0)h+=360}return [h,s*100,l*100]}
+function fromHsl(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));
+ return "#"+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,"0")).join("")}
+function applyST(){const r=document.documentElement;if(ST.theme=="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",ST.theme);
+ const [h,s,l]=toHsl(ST.accent),n=parseInt(ST.accent.slice(1),16),lum=(.299*(n>>16&255)+.587*(n>>8&255)+.114*(n&255))/255;
+ r.style.setProperty("--pri",ST.accent);r.style.setProperty("--pk",fromHsl((h+30)%360,s,l));r.style.setProperty("--on",lum>.62?"#000":"#fff")}
+function setTheme(t){ST.theme=t;saveST();applyST();draw()}
+function setAccent(v,redraw){ST.accent=v;saveST();applyST();if(redraw)draw()}
+function vSet(){return vRef()+vSet2()+vDev()}
+function vSet2(){const SW=["#ff5a1f","#ef4444","#ec4899","#a855f7","#3b82f6","#06b6d4","#22c55e","#a3e635","#facc15"],h=Math.round(toHsl(ST.accent)[0]);
+ return `<div class="card"><h2>🌗 Theme</h2><div class="seg" style="margin:0">${[["light","☀️ Light"],["dark","🌙 Dark"],["auto","📱 Auto"]].map(t=>`<div class="${ST.theme==t[0]?'on':''}" onclick="setTheme('${t[0]}')">${t[1]}</div>`).join("")}</div><div class="mut" style="margin-top:8px">Auto follows your phone’s setting.</div></div>
+ <div class="card"><h2>🎨 Accent colour</h2><div class="mut" style="margin-bottom:8px">Pick any colour you like. Tap the big box to open the colour wheel.</div>
+ <input type="color" value="${ST.accent}" oninput="setAccent(this.value)" style="height:70px;padding:4px;cursor:pointer">
+ <div class="mut" style="margin:4px 0">Or slide through the rainbow</div>
+ <input type="range" min="0" max="360" value="${h}" oninput="setAccent(fromHsl(+this.value,90,55))" style="padding:0;height:26px;background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)">
+ <div style="display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 12px">${SW.map(c=>`<div onclick="setAccent('${c}',1)" style="width:36px;height:36px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${ST.accent==c?'var(--tx)':'transparent'}"></div>`).join("")}</div>
+ <button class="btn">Preview button</button><button class="btn g" style="margin-top:8px" onclick="setAccent('#ff5a1f',1)">Reset to orange</button></div>`}
+applyST();
+boot();
+</script></body></html>
